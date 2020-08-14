@@ -1,49 +1,47 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 
-class Testando extends Component{
-
-    state={
-        tentativa: 'title'
-    }
-
-    componentDidMount(){
-        const { posts, loading } = this.props
-        console.log('componentDidMount', posts)
-        console.log('componentDidMount:loading', loading)
-    }
-
-    componentDidUpdate(prevProps){
-        const { loading } = this.props
-        if(this.props.loading !== prevProps.loading){
-            console.log('componentDidUpdate:loading', loading )
-        }
-    }
-
-    componentWillUnmount(){
-        console.log('componentWillUnmount : desmontado')
-    }
-
-    shouldComponentUpdate(nextProps, nextstate){
-        return this.state.tentativa !== nextstate.tentativa // || nextProps.loading !== this.props.loading
-    }
-
-    tentativa = () => {
-        this.setState({
-            tentativa:true
-        })
-    }
-
-
-    render(){        
-        const { posts } = this.props
-        console.log('render', posts)
-        return(
-        <div>
-            <button onClick={this.tentativa}>Re render</button>
-            Teste Montado
-        </div>
-        )
-    } 
+//evita re render
+const areEqual = (prevProps, nextProps) => {
+    return prevProps.loading === nextProps.loading
 }
 
-export default Testando
+function Testando(props) {
+
+    const { loading } = props
+    const [tentativa, setTentativa] = useState('title')
+
+    //componentDidMount
+    useEffect(() => {
+        const { posts, loading } = props
+        console.log('componentDidMount', posts)
+        console.log('componentDidMount:loading', loading)
+    }, [props])
+
+    //componentDidUpdate
+    useEffect(()=>{
+        console.log('componentDidUpdate', loading)
+    }, [loading])
+
+    //componentWillUnmount
+    useEffect(()=> {
+        return () => {
+            console.log('componentWillUnmount : desmontado')
+        }
+    },[])
+
+    const handleTentativa = () => {
+        setTentativa('Tentativa atualizada') 
+    }
+           
+  
+    console.log('Tentativa 1', tentativa)
+    return (
+    <div>
+       {<button onClick={handleTentativa}>Re render</button>}
+        Teste Montado
+    </div>
+    )
+    
+}
+
+export default memo (Testando, areEqual)
