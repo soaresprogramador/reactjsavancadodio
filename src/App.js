@@ -1,8 +1,33 @@
-import React, { Component } from 'react'
-import Testando from './Testando'
+import React, { useState, useEffect } from 'react'
+//import Testando from './Testando'
+import { ThemeContext, themes } from './Theme'
+import Card from './Card'
 
 
-class App extends Component{
+function App () {
+    const[token, setToken] = useState()
+
+    useEffect(() => {
+        
+        setTimeout(() =>{
+            setToken('5465123132654312564')
+        }, 4000)
+    },[setToken])
+
+    return (
+        <ThemeContext.Provider value={{...themes.primary, token}}>
+            <Card/>
+        </ThemeContext.Provider>
+    )
+}
+
+export default App
+
+
+
+
+
+/* class App extends Component{
 
   state = {
     loading: false,   
@@ -42,6 +67,4 @@ class App extends Component{
       </div>      
     )
   }
-}
-
-export default App
+} */
