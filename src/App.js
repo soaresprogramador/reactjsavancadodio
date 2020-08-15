@@ -1,4 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React, { Fragment } from 'react'
+
+const store = ['','','']
+
+function Column(){
+
+  return(
+    <tr>
+      <td>Tênis</td>
+      <td>Camisa</td>
+    </tr>
+  )
+}
+
+function App(){
+
+  const renderColumns = (element, key) => (
+    <Fragment key= {'column - '+ {key}}>
+      <Column/>
+    </Fragment>
+  )
+
+  return(
+    <table>
+      <tr>
+        {store.map(renderColumns)}
+      </tr>
+    </table>
+  )
+}
+export default App
+
+
+/* import React, { useState, useEffect } from 'react'
 //import Testando from './Testando'
 import { ThemeContext, themes } from './Theme'
 import Card from './Card'
@@ -21,13 +54,13 @@ function App () {
     )
 }
 
-export default App
 
 
 
 
 
-/* class App extends Component{
+
+class App extends Component{
 
   state = {
     loading: false,   
